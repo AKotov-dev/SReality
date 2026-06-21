@@ -14,12 +14,13 @@
 Cоздать конфигурацию в панели [3X-UI](https://github.com/MHSanaei/3x-ui/releases), скопировать в буфер, вставить в `SReality`, нажать "Старт".
 
 <details>
-<summary>Связка VLESS Reality</summary>
+<summary>Связка VLESS Reality (3X-UI)</summary>
   
 - Транспорт: RAW или gRPC
 - Протокол: Шифрование/Расшифрование - X25519 / ML-KEM-768 не используется
 - Безопасность: Reality - mldsa65 Seed и mldsa65 Verify не используются
 - Сниффинг не используется
+- Клиенты: Настройка клиента (для RAW): Учетные данные - Flow: xtls-rprx-vision
 
 При настройке gRPC не забываем указывать `Имя сервиса`, например - `grpc-service`, `Authority` не используется.
 </details>
