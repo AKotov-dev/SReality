@@ -1,6 +1,7 @@
 ## SReality - Простейший графический прокси-клиент
 
-Собран с учетом поддержки устаревших ОС. Тестирование проходило на VM Mageia-6 2017 года выпуска. Под капотом `SReality` - [sing-box-linux-amd64-musl](https://github.com/SagerNet/sing-box/releases).
+Собран с учетом поддержки устаревших ОС. Тестирование проходило на VM Mageia-6 2017 года выпуска.  
+Под капотом `SReality` - [sing-box-linux-amd64-musl](https://github.com/SagerNet/sing-box/releases).
 
 Зависимости (не включены в пакет): gtk2, lib64proxy-gnome, lib64proxy-kde
 
