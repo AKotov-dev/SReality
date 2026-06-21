@@ -246,6 +246,7 @@ begin
   //Показываем и сохраняем название соединения
   Label3.Caption := fbookmark;
   IniPropStorage1.Save;
+  LogMemo.Clear;
   LogMemo.Append(SImportSuccess);
 
   //Создаём файлы конфигураций

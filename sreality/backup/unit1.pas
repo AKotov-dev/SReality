@@ -50,7 +50,7 @@ var
 resourcestring
 
   SImportSuccess = 'Configuration imported successfully';
-  SNoMatchVLESS = 'The clipboard does not contain "vless://..."';
+  SNoMatchVLESS = 'The clipboard does not contain VLESS Reality configuration!';
   SFileExists = 'Configuration file exists! Overwrite?';
   SNoSupport = 'Transport not support! Use RAW (tcp) or gRPC!';
   SFlowRequires =
