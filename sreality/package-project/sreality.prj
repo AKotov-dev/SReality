@@ -2,7 +2,7 @@
 name=sreality
 
 [VERSION]
-version=0.1
+version=0.2
 
 [RELEASE]
 release=0.mrx6
@@ -74,7 +74,11 @@ devtool=Lazarus
 toolversion=3.2
 
 [INFO]
-0=v0.1
-1=+ Initial release
-2=+ sing-box-1.13.13-linux-amd64-musl
-3=+ Self-contained RPM package for Mageia-6+
+0=v0.2
+1=+ Flow control when importing a RAW configuration
+2=+ Self-contained RPM package for Mageia-6+
+3=
+4=v0.1
+5=+ Initial release
+6=+ sing-box-1.13.13-linux-amd64-musl
+7=+ Self-contained RPM package for Mageia-6+

@@ -53,6 +53,8 @@ resourcestring
   SNoMatchVLESS = 'The clipboard does not contain "vless://..."';
   SFileExists = 'Configuration file exists! Overwrite?';
   SNoSupport = 'Transport not support! Use RAW (tcp) or gRPC!';
+  SFlowRequires =
+    'RAW transport requires a "flow=xtls-rprx-vision" to be specified on the server!';
   SGRPCRequires =
     'gRPC transport requires a "serviceName" (word) to be specified on the server!';
 
@@ -221,6 +223,12 @@ begin
   if (ftype <> '"tcp"') and (ftype <> '"grpc"') then
   begin
     MessageDlg(SNoSupport, mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  if (ftype = '"tcp"') and (fflow = '""') then
+  begin
+    MessageDlg(SFlowRequires, mtInformation, [mbOK], 0);
     Exit;
   end;
 

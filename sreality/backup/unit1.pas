@@ -49,6 +49,7 @@ var
 
 resourcestring
 
+  SImportSuccess = 'Configuration imported successfully';
   SNoMatchVLESS = 'The clipboard does not contain "vless://..."';
   SFileExists = 'Configuration file exists! Overwrite?';
   SNoSupport = 'Transport not support! Use RAW (tcp) or gRPC!';
@@ -223,6 +224,12 @@ begin
     Exit;
   end;
 
+  if (ftype = '"tcp"') and (fflow = '""') then
+  begin
+    MessageDlg(SGRPCRequires, mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
   if (ftype = '"grpc"') and (fserviceName = '""') then
   begin
     MessageDlg(SGRPCRequires, mtInformation, [mbOK], 0);
@@ -237,6 +244,7 @@ begin
   //Показываем и сохраняем название соединения
   Label3.Caption := fbookmark;
   IniPropStorage1.Save;
+  LogMemo.Append(SImportSuccess);
 
   //Создаём файлы конфигураций
   try

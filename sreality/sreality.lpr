@@ -19,8 +19,8 @@ uses
 
 begin
   RequireDerivedFormResource := True;
-  Application.Title := 'Simple Reality v0.1 (RAW & gRPC) [RU]';
-  Application.Scaled := True;
+  Application.Title:='Simple Reality v0.2 (RAW & gRPC) [RU]';
+  Application.Scaled:=True;
   {$PUSH}
   {$WARN 5044 OFF}
   Application.MainFormOnTaskbar := True;

@@ -55,6 +55,10 @@ msgstr ""
 msgid "Configuration file exists! Overwrite?"
 msgstr ""
 
+#: unit1.sflowrequires
+msgid "RAW transport requires a \"flow=xtls-rprx-vision\" to be specified on the server!"
+msgstr ""
+
 #: unit1.sgrpcrequires
 msgid "gRPC transport requires a \"serviceName\" (word) to be specified on the server!"
 msgstr ""

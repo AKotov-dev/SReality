@@ -65,6 +65,10 @@ msgstr "Стоп"
 msgid "Configuration file exists! Overwrite?"
 msgstr "Файл конфигурации существует! Перезаписать?"
 
+#: unit1.sflowrequires
+msgid "RAW transport requires a \"flow=xtls-rprx-vision\" to be specified on the server!"
+msgstr ""
+
 #: unit1.sgrpcrequires
 msgid "gRPC transport requires a \"serviceName\" (word) to be specified on the server!"
 msgstr "gRPC-транспорт требует указать \"serviceName\" (слово) в настройках сервера!"
@@ -81,3 +85,4 @@ msgstr "Буфер обмена не содержит \"vless://...\""
 #: unit1.snosupport
 msgid "Transport not support! Use RAW (tcp) or gRPC!"
 msgstr "Транспорт не поддерживается! Используйте RAW (tcp) или gRPC!"
+
