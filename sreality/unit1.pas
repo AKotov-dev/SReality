@@ -50,11 +50,11 @@ var
 resourcestring
 
   SImportSuccess = 'Configuration imported successfully';
-  SNoMatchVLESS = 'The clipboard does not contain "vless://..."';
+  SNoMatchVLESS = 'The clipboard does not contain VLESS Reality configuration!';
   SFileExists = 'Configuration file exists! Overwrite?';
   SNoSupport = 'Transport not support! Use RAW (tcp) or gRPC!';
   SFlowRequires =
-    'RAW transport requires a "flow=xtls-rprx-vision" to be specified on the server!';
+    'Important! This configuration does not use Vision protection! Specify flow=xtls-vision on the server!';
   SGRPCRequires =
     'gRPC transport requires a "serviceName" (word) to be specified on the server!';
 
@@ -207,36 +207,36 @@ var
   S: TStringList;
 begin
   //Проверка буфера на соответствие шаблону
-  if Copy(ClipBoard.AsText, 1, 8) <> 'vless://' then
+  if (Copy(ClipBoard.AsText, 1, 8) <> 'vless://') or
+    (Pos('security=reality', ClipBoard.AsText) = 0) then
   begin
     MessageDlg(SNoMatchVLESS, mtWarning, [mbOK], 0);
     Exit;
   end;
-
-  //Перезаписать существующий конфиг?
-  if FileExists(GetUserDir + '.config/sreality/client.json') then
-    if MessageDlg(SFileExists, mtConfirmation, [mbYes, mbNo], 0) <> mrYes then Exit;
 
   //Получаем переменные
   ParseV2RayURI(Trim(ClipBoard.AsText));
 
   if (ftype <> '"tcp"') and (ftype <> '"grpc"') then
   begin
-    MessageDlg(SNoSupport, mtInformation, [mbOK], 0);
+    MessageDlg(SNoSupport, mtWarning, [mbOK], 0);
     Exit;
   end;
 
-  if (ftype = '"tcp"') and (fflow = '""') then
-  begin
+  //Рекомендуем Flow для RAW
+  if (ftype = '"tcp"') and (Pos('flow=', Trim(ClipBoard.AsText)) = 0) then
     MessageDlg(SFlowRequires, mtInformation, [mbOK], 0);
-    Exit;
-  end;
 
+  //Требуем serviceName для gRPC
   if (ftype = '"grpc"') and (fserviceName = '""') then
   begin
-    MessageDlg(SGRPCRequires, mtInformation, [mbOK], 0);
+    MessageDlg(SGRPCRequires, mtWarning, [mbOK], 0);
     Exit;
   end;
+
+  //Перезаписать существующий конфиг?
+  if FileExists(GetUserDir + '.config/sreality/client.json') then
+    if MessageDlg(SFileExists, mtConfirmation, [mbYes, mbNo], 0) <> mrYes then Exit;
 
   //Останов
   StopBtn.Click;

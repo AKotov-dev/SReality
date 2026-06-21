@@ -66,8 +66,8 @@ msgid "Configuration file exists! Overwrite?"
 msgstr "Файл конфигурации существует! Перезаписать?"
 
 #: unit1.sflowrequires
-msgid "RAW transport requires a \"flow=xtls-rprx-vision\" to be specified on the server!"
-msgstr ""
+msgid "Important! This configuration does not use Vision protection! Specify flow=xtls-vision on the server!"
+msgstr "Внимание! Эта конфигурация не использует защиту Vision! Укажите flow=xtls-rprx-vision на сервере!"
 
 #: unit1.sgrpcrequires
 msgid "gRPC transport requires a \"serviceName\" (word) to be specified on the server!"
@@ -79,10 +79,9 @@ msgstr "Конфигурация успешно импортирована"
 
 #: unit1.snomatchvless
 msgctxt "unit1.snomatchvless"
-msgid "The clipboard does not contain \"vless://...\""
-msgstr "Буфер обмена не содержит \"vless://...\""
+msgid "The clipboard does not contain VLESS Reality configuration!"
+msgstr "Буфер обмена не содержит конфигурацию VLESS Reality!"
 
 #: unit1.snosupport
 msgid "Transport not support! Use RAW (tcp) or gRPC!"
 msgstr "Транспорт не поддерживается! Используйте RAW (tcp) или gRPC!"
-

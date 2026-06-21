@@ -56,7 +56,7 @@ msgid "Configuration file exists! Overwrite?"
 msgstr ""
 
 #: unit1.sflowrequires
-msgid "RAW transport requires a \"flow=xtls-rprx-vision\" to be specified on the server!"
+msgid "Important! This configuration does not use Vision protection! Specify flow=xtls-vision on the server!"
 msgstr ""
 
 #: unit1.sgrpcrequires
@@ -69,7 +69,7 @@ msgstr ""
 
 #: unit1.snomatchvless
 msgctxt "unit1.snomatchvless"
-msgid "The clipboard does not contain \"vless://...\""
+msgid "The clipboard does not contain VLESS Reality configuration!"
 msgstr ""
 
 #: unit1.snosupport
