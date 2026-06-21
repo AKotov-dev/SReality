@@ -1,0 +1,74 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tmainform.barcodeqr1.text
+msgid "TBarcodeQR"
+msgstr ""
+
+#: tmainform.caption
+msgid "SReality"
+msgstr ""
+
+#: tmainform.label1.caption
+msgid "Port: 11080"
+msgstr ""
+
+#: tmainform.label1.hint
+msgid "Mixed port"
+msgstr ""
+
+#: tmainform.label2.caption
+msgid "Configuration:"
+msgstr ""
+
+#: tmainform.label3.caption
+msgid "..."
+msgstr ""
+
+#: tmainform.pastebtn.caption
+msgid "Paste"
+msgstr ""
+
+#: tmainform.pastebtn.hint
+msgid "Paste from ClipBoard (3x-ui format)"
+msgstr ""
+
+#: tmainform.qrbtn.caption
+msgid "QR"
+msgstr ""
+
+#: tmainform.startbtn.caption
+msgctxt "tmainform.startbtn.caption"
+msgid "Start"
+msgstr ""
+
+#: tmainform.statictext1.caption
+msgid "License: GPLv3   Author: alex_q_2000 (C) 2026   https://github.com/AKotov-dev/SReality"
+msgstr ""
+
+#: tmainform.stopbtn.caption
+msgctxt "tmainform.stopbtn.caption"
+msgid "Stop"
+msgstr ""
+
+#: unit1.sfileexists
+msgid "Configuration file exists! Overwrite?"
+msgstr ""
+
+#: unit1.sgrpcrequires
+msgid "gRPC transport requires a \"serviceName\" (word) to be specified on the server!"
+msgstr ""
+
+#: unit1.simportsuccess
+msgid "Configuration imported successfully"
+msgstr ""
+
+#: unit1.snomatchvless
+msgctxt "unit1.snomatchvless"
+msgid "The clipboard does not contain \"vless://...\""
+msgstr ""
+
+#: unit1.snosupport
+msgid "Transport not support! Use RAW (tcp) or gRPC!"
+msgstr ""
+
