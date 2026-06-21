@@ -4,8 +4,10 @@
 
 Зависимости (не включены в пакет): gtk2, lib64proxy-gnome, lib64proxy-kde
 
-Рабочий каталог, конфигурации: ~/.config/sreality
-Сервис запуска системного прокси: /etc/systemd/user/sreality.service
+- Рабочий каталог, конфигурации: ~/.config/sreality
+- Сервис запуска системного прокси: /etc/systemd/user/sreality.service
+
+![](https://github.com/AKotov-dev/SReality/blob/main/Snapshot1.png)
 
 **Использование:** создать конфигурацию в панели [3X-UI](https://github.com/MHSanaei/3x-ui/releases), скопировать в буфер, вставить в SReality, нажать "Старт".
 
