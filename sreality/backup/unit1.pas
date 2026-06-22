@@ -252,7 +252,8 @@ begin
   end;
 
   //Проверяем на присутствие flow конфиг gRPC (баг панели 3X-UI) - может и не придти, а на сервере будет
-  if (ftype = 'grpc') and (fflow <> '') then
+  //https://github.com/MHSanaei/3x-ui/issues/5322
+  if (ftype = 'grpc') and (Pos('flow=', VlessURI) <> 0) then
   begin
     MessageDlg(SInvalidGRPCFlow, mtWarning, [mbOK], 0);
     Exit;
