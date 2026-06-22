@@ -56,15 +56,25 @@ msgid "Configuration file exists! Overwrite?"
 msgstr ""
 
 #: unit1.sflowrequires
-msgid "Important! This configuration does not use Vision protection! Specify flow=xtls-vision on the server!"
+msgid ""
+"This configuration does not use Vision protection!\n"
+"\n"
+"Specify \"flow=xtls-rprx-vision\" on the server!"
 msgstr ""
 
 #: unit1.sgrpcrequires
-msgid "gRPC transport requires a \"serviceName\" (word) to be specified on the server!"
+msgid "GRPC transport requires a \"serviceName\" (for example, \"grpc-service\") to be specified on the server!"
 msgstr ""
 
 #: unit1.simportsuccess
-msgid "Configuration imported successfully"
+msgid "Configuration imported successfully..."
+msgstr ""
+
+#: unit1.sinvalidgrpcflow
+msgid ""
+"\"Flow\" was detected in the gRPC transport!\n"
+"\n"
+"The server configuration may not have been cleared after switching transports!"
 msgstr ""
 
 #: unit1.snomatchvless

@@ -49,21 +49,27 @@ var
 
 resourcestring
 
-  SImportSuccess = 'Configuration imported successfully';
+  SImportSuccess = 'Configuration imported successfully...';
   SNoMatchVLESS = 'The clipboard does not contain VLESS Reality configuration!';
   SFileExists = 'Configuration file exists! Overwrite?';
   SNoSupport = 'Transport not support! Use RAW (tcp) or gRPC!';
   SFlowRequires =
-    'Important! This configuration does not use Vision protection! Specify flow=xtls-vision on the server!';
+    'This configuration does not use Vision protection!' + LineEnding +
+    LineEnding + 'Specify "flow=xtls-rprx-vision" on the server!';
   SGRPCRequires =
-    'gRPC transport requires a "serviceName" (word) to be specified on the server!';
+    'GRPC transport requires a "serviceName" (for example, "grpc-service") to be specified on the server!';
+  SInvalidGRPCFlow =
+    '"Flow" was detected in the gRPC transport!' + LineEnding +
+    LineEnding +
+    'The server configuration may not have been cleared after switching transports!';
+
 
 implementation
 
 uses start_trd, service_state_trd;
 
 var
-  ftype, fserver, fserver_port, fuuid, fserver_name, ffingerprint,
+  fproto, ftype, fserver, fserver_port, fuuid, fserver_name, ffingerprint,
   fpublic_key, fshort_id, fflow, fpath, fserviceName, fbookmark: string;
 
   {$R *.lfm}
@@ -97,16 +103,34 @@ begin
   // Используем встроенный TURI для базового разбора структуры
   ParsedURI := ParseURI(AURI);
 
-  // Выводим базовые вещи
- { WriteLn('Protocol: ', ParsedURI.Protocol); // "type"
-  WriteLn('Host: ', ParsedURI.Host); // "server"
-  WriteLn('Port: ', ParsedURI.Port); // "server_port"
-  WriteLn('UUID: ', ParsedURI.Username); // "uuid" }
+  //Очистка публичных переменных
+  fproto := '';
+  ftype := '';
+  fserver := '';
+  fserver_port := '';
+  fuuid := '';
+  fserver_name := '';
+  ffingerprint := '';
+  fpublic_key := '';
+  fshort_id := '';
+  fflow := '';
+  fpath := '';
+  fserviceName := '';
+  fbookmark := '';
 
-  ftype := AnsiQuotedStr(ParsedURI.Protocol, '"');
-  fserver := AnsiQuotedStr(ParsedURI.Host, '"');
+  // Выводим базовые значения ДО знака ?
+  // protocol = vless
+  fproto := ParsedURI.Protocol;
+  // uuid
+  fuuid := ParsedURI.Username;
+  // server = IP address or domain
+  fserver := ParsedURI.Host;
+  // server Port (integer)
   fserver_port := IntToStr(ParsedURI.Port);
-  fuuid := AnsiQuotedStr(ParsedURI.Username, '"');
+  // Название соединения (Хэш после знака #)
+  fbookmark := HTTPDecode(ParsedURI.Bookmark);
+  // Если fbookmark пуст, пробуем из другого места
+  if fbookmark = '' then fbookmark := HTTPDecode(ParsedURI.Document);
 
   // Не используются в vless
   // WriteLn('Password: ', ParsedURI.Password); // То, что до @
@@ -114,12 +138,6 @@ begin
   // WriteLn('Document: ', ParsedURI.Document);
   // Одинаковые - название соединения
   // WriteLn('Bookmark: ', ParsedURI.Bookmark);
-
-  // Название соединения (Хэш после знака #)
-
-  fbookmark := HTTPDecode(ParsedURI.Bookmark);
-
-  // WriteLn('Название сервера: ', HTTPDecode(ParsedURI.Bookmark));
 
   // 2. Разбираем параметры (всё, что после знака "?")
   if ParsedURI.Params <> '' then
@@ -130,34 +148,30 @@ begin
       ParamsList.Text := StringReplace(ParsedURI.Params, '&', sLineBreak,
         [rfReplaceAll]);
 
-      WriteLn('--- Дополнительные параметры ---');
-
+      // Дополнительные параметры
       for I := 0 to ParamsList.Count - 1 do
       begin
         ParamName := ParamsList.Names[I];
         // Например: security
         ParamValue := HTTPDecode(ParamsList.ValueFromIndex[I]); // Например: tls
 
-        // Вывод всех полей
-        // WriteLn(ParamName, ' = ', ParamValue);
-
-        // Здесь через if-then распределять по своим переменным:
+        // Читаем остальные поля
         // "server_name"
-        if ParamName = 'sni' then fserver_name := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'sni' then fserver_name := ParamValue;
         // "fingerprint"
-        if ParamName = 'fp' then ffingerprint := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'fp' then ffingerprint := ParamValue;
         // "public_key"
-        if ParamName = 'pbk' then fpublic_key := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'pbk' then fpublic_key := ParamValue;
         // "short_id"
-        if ParamName = 'sid' then fshort_id := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'sid' then fshort_id := ParamValue;
         // "flow"
-        if ParamName = 'flow' then fflow := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'flow' then fflow := ParamValue;
         // "type" (RAW=tcp, XHTTP=xhttp, gRPC=grpc)
-        if ParamName = 'type' then ftype := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'type' then ftype := ParamValue;
         // "path"
-        if ParamName = 'path' then fpath := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'path' then fpath := ParamValue;
         // serviceName
-        if ParamName = 'serviceName' then fserviceName := AnsiQuotedStr(ParamValue, '"');
+        if ParamName = 'serviceName' then fserviceName := ParamValue;
 
       end;
     finally
@@ -205,32 +219,42 @@ end;
 procedure TMainForm.PasteBtnClick(Sender: TObject);
 var
   S: TStringList;
+  VlessURI: string;
 begin
-  //Проверка буфера на соответствие шаблону
-  if (Copy(ClipBoard.AsText, 1, 8) <> 'vless://') or
-    (Pos('security=reality', ClipBoard.AsText) = 0) then
+  VlessURI := Trim(ClipBoard.AsText);
+
+  //Проверка буфера на соответствие шаблону + reality
+  if not VlessURI.StartsWith('vless://') or
+    (Pos('security=reality', VlessURI) = 0) then
   begin
     MessageDlg(SNoMatchVLESS, mtWarning, [mbOK], 0);
     Exit;
   end;
 
   //Получаем переменные
-  ParseV2RayURI(Trim(ClipBoard.AsText));
+  ParseV2RayURI(VlessURI);
 
-  if (ftype <> '"tcp"') and (ftype <> '"grpc"') then
+  if (ftype <> 'tcp') and (ftype <> 'grpc') then
   begin
     MessageDlg(SNoSupport, mtWarning, [mbOK], 0);
     Exit;
   end;
 
   //Рекомендуем Flow для RAW
-  if (ftype = '"tcp"') and (Pos('flow=', Trim(ClipBoard.AsText)) = 0) then
-    MessageDlg(SFlowRequires, mtInformation, [mbOK], 0);
+  if (ftype = 'tcp') and (Pos('flow=', VlessURI) = 0) then
+    if MessageDlg(SFlowRequires, mtInformation, [mbOK], 0) <> mrOk then Exit;
 
   //Требуем serviceName для gRPC
-  if (ftype = '"grpc"') and (fserviceName = '""') then
+  if (ftype = 'grpc') and (fserviceName = '') then
   begin
     MessageDlg(SGRPCRequires, mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
+  //Проверяем на присутствие flow конфиг gRPC (баг панели 3X-UI) - может и не придти, а на сервере будет
+  if (ftype = 'grpc') and (fflow <> '') then
+  begin
+    MessageDlg(SInvalidGRPCFlow, mtWarning, [mbOK], 0);
     Exit;
   end;
 
@@ -242,19 +266,20 @@ begin
   StopBtn.Click;
   Application.ProcessMessages;
   LogMemo.Visible := True;
+  LogMemo.Clear;
 
   //Показываем и сохраняем название соединения
   Label3.Caption := fbookmark;
   IniPropStorage1.Save;
-  LogMemo.Clear;
+
   LogMemo.Append(SImportSuccess);
 
   //Создаём файлы конфигураций
   try
     S := TStringList.Create;
 
-    //Сохраняем URI для QR-кода
-    S.Text := ClipBoard.AsText;
+    //Сохраняем VlessURI для QR-кода
+    S.Text := VlessURI;
     S.SaveToFile(GetUserDir + '.config/sreality/uri.txt');
     S.Clear;
 
@@ -307,44 +332,43 @@ begin
 
     S.Add('"outbounds": [');
     S.Add('    {');
-    S.Add('      "type": "vless",');
+    S.Add('      "type": "' + fproto + '",');
     S.Add('      "tag": "proxy",');
-    S.Add('      "server": ' + fserver + ',');
+    S.Add('      "server": "' + fserver + '",');
     S.Add('      "server_port": ' + fserver_port + ',');
-    S.Add('      "uuid": ' + fuuid + ',');
+    S.Add('      "uuid": "' + fuuid + '",');
 
     if fflow <> '' then
-      S.Add('      "flow": ' + fflow + ',');
+      S.Add('      "flow": "' + fflow + '",');
 
     S.Add('      "tls": {');
     S.Add('        "enabled": true,');
-    S.Add('        "server_name": ' + fserver_name + ',');
+    S.Add('        "server_name": "' + fserver_name + '",');
     S.Add('        "utls": {');
     S.Add('          "enabled": true,');
-    S.Add('          "fingerprint": ' + ffingerprint);
+    S.Add('          "fingerprint": "' + ffingerprint + '"');
     S.Add('        },');
     S.Add('        "reality": {');
     S.Add('          "enabled": true,');
-    S.Add('          "public_key": ' + fpublic_key + ',');
-    S.Add('          "short_id": ' + fshort_id);
+    S.Add('          "public_key": "' + fpublic_key + '",');
+    S.Add('          "short_id": "' + fshort_id + '"');
     S.Add('        }');
     S.Add('      },');
 
-   { if ftype = '"httpupgrade"' then
-    begin
-      S.Add('      "transport": {');
-      S.Add('          "type": "httpupgrade",');
-      S.Add('          "host": "www.nvidia.com",');
-      S.Add('          "path": ' + fpath);
-      S.Add('        },');
-    end;
-    }
+    // if ftype = '"httpupgrade"' then
+    // begin
+    //   S.Add('      "transport": {');
+    //   S.Add('          "type": "httpupgrade",');
+    //   S.Add('          "host": "www.nvidia.com",');
+    //   S.Add('          "path": ' + fpath);
+    //   S.Add('        },');
+    // end;
 
-    if ftype = '"grpc"' then
+    if ftype = 'grpc' then
     begin
       S.Add('      "transport": {');
       S.Add('          "type": "grpc",');
-      S.Add('          "service_name": ' + fserviceName);
+      S.Add('          "service_name": "' + fserviceName + '"');
       S.Add('        },');
     end;
 

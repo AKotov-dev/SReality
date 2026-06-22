@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 298
+  Left = 293
   Height = 560
-  Top = 126
+  Top = 128
   Width = 793
   ActiveControl = StartBtn
   Caption = 'SReality'

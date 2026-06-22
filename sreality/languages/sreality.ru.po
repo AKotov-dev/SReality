@@ -66,16 +66,37 @@ msgid "Configuration file exists! Overwrite?"
 msgstr "Файл конфигурации существует! Перезаписать?"
 
 #: unit1.sflowrequires
-msgid "Important! This configuration does not use Vision protection! Specify flow=xtls-vision on the server!"
-msgstr "Внимание! Эта конфигурация не использует защиту Vision! Укажите flow=xtls-rprx-vision на сервере!"
+msgid ""
+"This configuration does not use Vision protection!\n"
+"\n"
+"Specify \"flow=xtls-rprx-vision\" on the server!"
+msgstr ""
+"Эта конфигурация не использует защиту Vision!\n"
+"\n"
+"Укажите \"flow=xtls-rprx-vision\" на сервере!"
 
 #: unit1.sgrpcrequires
-msgid "gRPC transport requires a \"serviceName\" (word) to be specified on the server!"
-msgstr "Транспорт gRPC требует указать \"serviceName\" (слово) в настройках сервера!"
+msgid "GRPC transport requires a \"serviceName\" (for example, \"grpc-service\") to be specified on the server!"
+msgstr "Транспорт gRPC требует указать \"serviceName\" (например, \"grpc-service\") в настройках сервера!"
 
 #: unit1.simportsuccess
-msgid "Configuration imported successfully"
-msgstr "Конфигурация успешно импортирована"
+msgid "Configuration imported successfully..."
+msgstr "Конфигурация успешно импортирована..."
+
+#: unit1.sinvalidgrpcflow
+#, fuzzy
+#| msgid ""
+#| "\"Flow\" was detected during gRPC transport!\n"
+#| "\n"
+#| "The server configuration may not have been cleared after switching transports!"
+msgid ""
+"\"Flow\" was detected in the gRPC transport!\n"
+"\n"
+"The server configuration may not have been cleared after switching transports!"
+msgstr ""
+"В транспорте gRPC был обнаружен \"Flow\"!\n"
+"\n"
+"Возможно, конфигурация сервера не была очищена после переключения транспорта!"
 
 #: unit1.snomatchvless
 msgctxt "unit1.snomatchvless"
