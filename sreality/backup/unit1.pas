@@ -251,8 +251,6 @@ begin
     Exit;
   end;
 
-  showmessage(ftype + '   ' + fflow);
-
   //Проверяем на присутствие flow конфиг gRPC (баг панели 3X-UI) - может и не придти, а на сервере будет
   if (ftype = 'grpc') and (fflow <> '') then
   begin
