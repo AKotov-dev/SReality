@@ -8,6 +8,8 @@
 - Рабочий каталог, конфигурации: ~/.config/sreality
 - Сервис запуска системного прокси: /etc/systemd/user/sreality.service
 
+**Панель:** 3x-ui-[v3.2.0](https://github.com/MHSanaei/3x-ui/releases/tag/v3.2.0), xray-26.5.9, Мин. версия клиента-25.9.11. Макс. версия клиента-25.9.11.  
+  
 ![](https://github.com/AKotov-dev/SReality/blob/main/Snapshot1.png)
 
 ### Использование
