@@ -10,6 +10,10 @@
 
 **Панель:** 3x-ui-[v3.2.0](https://github.com/MHSanaei/3x-ui/releases/tag/v3.2.0), xray-26.5.9, Мин. версия клиента-25.9.11. Макс. версия клиента-25.9.11.  
   
+Установка панели:
+```
+bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v3.2.0
+```
 ![](https://github.com/AKotov-dev/SReality/blob/main/Snapshot1.png)
 
 ### Использование
