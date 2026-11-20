@@ -19,7 +19,7 @@ uses
 
 begin
   RequireDerivedFormResource := True;
-  Application.Title:='Simple Reality v0.2 (RAW & gRPC) [RU]';
+  Application.Title:='Simple Reality v0.3 (RAW & gRPC) [RU]';
   Application.Scaled:=True;
   {$PUSH}
   {$WARN 5044 OFF}
