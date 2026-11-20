@@ -16,7 +16,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.
 ```
 
 > [!IMPORTANT]
-> Для усиления безопасности желательно [скрыть панель 3x-ui](https://github.com/AKotov-dev/SReality/blob/main/doc/hide_3x-ui.md).
+> Для повышения безопасности рекомендуется [ограничить внешний доступ к панели 3x-ui и настроить управление через SSH-туннель](https://github.com/AKotov-dev/SReality/blob/main/doc/hide_3x-ui.md).
 
 ![](https://github.com/AKotov-dev/SReality/blob/main/Snapshot1.png)
 
