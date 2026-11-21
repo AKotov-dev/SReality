@@ -66,7 +66,7 @@ http://localhost:2222/opyaGJ4IFD3cPVC3Ta/
 
 Сохраняем настройки:
 
-![](../doc/4-1.png)
+![](../doc/4-2.png)
 
 ### Готово!
 
